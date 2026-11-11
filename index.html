@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Shivraj Bakare – Portfolio</title>
+    <meta name="description"
+        content="Shivraj Bakare, final-year materials science student at IIT Kanpur building machine learning for crystals, images and speech.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0A0D;
+            --ink: #EDEBF2;
+            --soft: #8E8A99;
+            --line: #24232B;
+            --v1: #B99BFF;
+            --v2: #7B4DFF;
+            --disp: "Unbounded", "Trebuchet MS", sans-serif;
+            --body: "Geist", system-ui, sans-serif;
+            --mono: "Geist Mono", ui-monospace, monospace;
+            color-scheme: dark;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--bg);
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 300 1.05rem/1.65 var(--body);
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        ::selection {
+            background: var(--v2);
+            color: #fff
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--v1);
+            outline-offset: 3px
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            font-family: var(--disp);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -.01em
+        }
+
+        .mono {
+            font: 400 .76rem var(--mono);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--soft)
+        }
+
+        .grad {
+            background: linear-gradient(95deg, var(--v1), var(--v2) 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: var(--bg);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 2rem;
+            transition: opacity .6s, visibility .6s
+        }
+
+        #loader.done {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        #loader b {
+            font: 800 clamp(3rem, 12vw, 8rem)/1 var(--disp)
+        }
+
+        #lbar {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 0;
+            background: linear-gradient(90deg, var(--v2), var(--v1))
+        }
+
+        .nav {
+            position: fixed;
+            top: env(safe-area-inset-top, 0px);
+            left: 0;
+            right: 0;
+            z-index: 40;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.3rem 2.2rem;
+            font: 500 .76rem var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            mix-blend-mode: difference;
+            color: #fff
+        }
+
+        .nav .logo {
+            font: 800 1.05rem var(--disp);
+            letter-spacing: 0
+        }
+
+        .nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        .nav ul a {
+            position: relative
+        }
+
+        .nav ul a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -4px;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform .3s
+        }
+
+        .nav ul a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left
+        }
+
+        /* hero */
+        .hero {
+            position: relative;
+            min-height: 100svh;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line)
+        }
+
+        #lattice {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .hero .in {
+            position: relative;
+            width: 100%;
+            padding: 0 6vw 4rem;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
+            flex-wrap: wrap
+        }
+
+        .hero a {
+            pointer-events: auto
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 7.4vw, 6.4rem);
+            font-weight: 800;
+            text-shadow: 0 0 30px var(--bg), 0 0 10px var(--bg)
+        }
+
+        .hero p.lede {
+            max-width: 30rem;
+            color: #cfccd8;
+            margin: 1.4rem 0 0;
+            text-shadow: 0 0 14px var(--bg)
+        }
+
+        .hero .r {
+            text-align: left
+        }
+
+        .hero .small {
+            font: 400 clamp(1rem, 1.6vw, 1.4rem) var(--disp);
+            margin-bottom: .4rem
+        }
+
+        .hero .big {
+            font: 800 clamp(1.6rem, 3.6vw, 3.4rem)/1.05 var(--disp);
+            text-shadow: 0 0 20px var(--bg)
+        }
+
+        .rot {
+            display: block;
+            height: 1.05em;
+            overflow: hidden
+        }
+
+        .rot span {
+            display: block;
+            animation: rot 9s cubic-bezier(.7, 0, .3, 1) infinite
+        }
+
+        @keyframes rot {
+
+            0%,
+            28% {
+                transform: translateY(0)
+            }
+
+            33%,
+            61% {
+                transform: translateY(-100%)
+            }
+
+            66%,
+            94% {
+                transform: translateY(-200%)
+            }
+
+            100% {
+                transform: translateY(-300%)
+            }
+        }
+
+        .heat {
+            position: absolute;
+            right: 2.2rem;
+            top: 4.6rem;
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            font: 400 .74rem var(--mono);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            background: rgba(10, 10, 13, .75);
+            padding: .45rem .8rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            z-index: 2
+        }
+
+        .heat input {
+            accent-color: var(--v2);
+            width: 110px
+        }
+
+        .heat output {
+            min-width: 4.2ch;
+            text-align: right
+        }
+
+        /* sections */
+        section.sec {
+            position: relative;
+            padding: 8rem 6vw;
+            max-width: 1400px;
+            margin: 0 auto
+        }
+
+        .sec-title {
+            font-size: clamp(2.2rem, 6vw, 5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 3.5rem
+        }
+
+        .js .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .js .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+
+        .aboutbox {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem 4rem;
+            align-items: start
+        }
+
+        .scenewrap {
+            grid-row: 1/3;
+            position: sticky;
+            top: 5rem
+        }
+
+        #scene {
+            position: relative;
+            height: min(72vh, 580px);
+            border-radius: 22px;
+            border: 1px solid #2A2735;
+            overflow: hidden;
+            background: radial-gradient(60% 55% at 50% 62%, rgba(123, 77, 255, .22), transparent 70%), #0E0D12
+        }
+
+        #scene canvas {
+            display: block;
+            width: 100%;
+            height: 100%
+        }
+
+        .aboutbox p {
+            margin: 0 0 1rem;
+            color: #cfccd8;
+            max-width: 34rem
+        }
+
+        .aboutbox h2 {
+            font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+            margin-bottom: 1.4rem
+        }
+
+        .edu {
+            border-top: 1px solid var(--line)
+        }
+
+        .edu div {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .edu b {
+            font-weight: 500
+        }
+
+        .career {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto
+        }
+
+        .career::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(transparent, var(--v2) 15%, var(--v1) 85%, transparent)
+        }
+
+        .job {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 5rem;
+            margin-bottom: 5rem;
+            position: relative
+        }
+
+        .job::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: .6rem;
+            width: 12px;
+            height: 12px;
+            margin-left: -5px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 0 5px rgba(123, 77, 255, .25), 0 0 30px 6px rgba(123, 77, 255, .6)
+        }
+
+        .job .when {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem
+        }
+
+        .job h3 {
+            font-size: clamp(1.1rem, 1.8vw, 1.55rem)
+        }
+
+        .job .co {
+            color: var(--v1);
+            font-weight: 500;
+            margin-top: .4rem
+        }
+
+        .job .yr {
+            font: 800 clamp(1.6rem, 3vw, 2.8rem)/1 var(--disp);
+            color: #2f2d38;
+            white-space: nowrap
+        }
+
+        .job ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: #cfccd8
+        }
+
+        .job li {
+            margin-bottom: .45rem
+        }
+
+        .job li::marker {
+            color: var(--v2)
+        }
+
+        .work {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+            gap: 3rem;
+            align-items: start
+        }
+
+        .plist {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--line)
+        }
+
+        .plist button {
+            all: unset;
+            box-sizing: border-box;
+            width: 100%;
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: 3rem 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.3rem .4rem;
+            border-bottom: 1px solid var(--line);
+            transition: padding .35s, color .25s
+        }
+
+        .plist .n {
+            font: 400 .8rem var(--mono);
+            color: var(--soft)
+        }
+
+        .plist .t {
+            font: 600 clamp(1rem, 1.7vw, 1.35rem)/1.2 var(--disp)
+        }
+
+        .plist .ar {
+            font: 400 1.2rem var(--mono);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: .3s
+        }
+
+        .plist button:hover,
+        .plist button[aria-selected=true] {
+            padding-left: 1.2rem
+        }
+
+        .plist button[aria-selected=true] .t {
+            color: var(--v1)
+        }
+
+        .plist button[aria-selected=true] .ar,
+        .plist button:hover .ar {
+            opacity: 1;
+            transform: none
+        }
+
+        .plist button:focus-visible {
+            outline: 2px solid var(--v1);
+            outline-offset: -2px
+        }
+
+        .card {
+            position: sticky;
+            top: 6rem;
+            border-radius: 22px;
+            padding: 2.4rem;
+            background: linear-gradient(160deg, #17151F, #0E0D12);
+            border: 1px solid #2A2735;
+            overflow: hidden;
+            min-height: 440px
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            right: -140px;
+            top: -160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(123, 77, 255, .45), transparent 65%);
+            pointer-events: none
+        }
+
+        .card .inner {
+            position: relative;
+            animation: cin .45s ease
+        }
+
+        @keyframes cin {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .card .metric {
+            font: 800 clamp(2rem, 4vw, 3.2rem)/1 var(--disp);
+            margin: 1.1rem 0 .4rem
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-top: 1.5rem
+        }
+
+        .card .w {
+            color: var(--soft);
+            margin: .3rem 0 1.2rem
+        }
+
+        .card ul {
+            margin: 0 0 1.5rem;
+            padding-left: 1.1rem;
+            color: #cfccd8
+        }
+
+        .card li {
+            margin-bottom: .45rem
+        }
+
+        .card li::marker {
+            color: var(--v2)
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem
+        }
+
+        .tags span {
+            font: 400 .72rem var(--mono);
+            padding: .3rem .7rem;
+            border-radius: 999px;
+            border: 1px solid #35314A;
+            color: #cbc4e6
+        }
+
+        .tech {
+            padding-bottom: 0
+        }
+
+        .tech .sec-title,
+        .tech .mono {
+            text-align: center;
+            display: block
+        }
+
+        .tech .sec-title {
+            margin-bottom: 1rem
+        }
+
+        #tech {
+            display: block;
+            width: 100%;
+            height: min(78vh, 700px);
+            margin-top: 1rem;
+            touch-action: pan-y
+        }
+
+        .ach {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden
+        }
+
+        .ach div {
+            background: var(--bg);
+            padding: 2rem 1.6rem;
+            transition: background .3s
+        }
+
+        .ach div:hover {
+            background: #14121B
+        }
+
+        .ach b {
+            display: block;
+            font: 800 1.6rem/1.1 var(--disp);
+            margin-bottom: .6rem
+        }
+
+        .ach span {
+            color: #bfbac9;
+            font-size: .98rem
+        }
+
+        .ach .mono {
+            display: block;
+            margin-top: 1rem
+        }
+
+        .stackline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--line);
+            padding-top: 2.5rem
+        }
+
+        .stackline p {
+            margin: .5rem 0 0;
+            color: #cfccd8
+        }
+
+        .bigmail {
+            display: inline-block;
+            font: 600 clamp(1.3rem, 4vw, 3.2rem)/1.2 var(--disp);
+            margin-bottom: 3rem;
+            word-break: break-word;
+            background: linear-gradient(var(--v1), var(--v1)) 0 100%/0 2px no-repeat;
+            transition: background-size .4s
+        }
+
+        .bigmail:hover {
+            background-size: 100% 2px
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            border-top: 1px solid var(--line);
+            padding-top: 2.5rem
+        }
+
+        .contact-grid a:hover {
+            color: var(--v1)
+        }
+
+        footer {
+            padding: 2rem 6vw 2.4rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-top: 1px solid var(--line);
+            max-width: 1400px;
+            margin: 0 auto
+        }
+
+        @media(max-width:900px) {
+            .nav {
+                padding: 1.1rem 1.2rem
+            }
+
+            .nav ul {
+                gap: 1.1rem
+            }
+
+            .heat {
+                right: 1.2rem;
+                top: 4rem
+            }
+
+            section.sec {
+                padding: 5rem 6vw
+            }
+
+            .aboutbox,
+            .work {
+                grid-template-columns: 1fr
+            }
+
+            .scenewrap {
+                grid-row: auto;
+                position: relative;
+                top: 0
+            }
+
+            #scene {
+                height: 420px
+            }
+
+            .career::before {
+                left: 6px
+            }
+
+            .job {
+                grid-template-columns: 1fr;
+                padding-left: 2rem;
+                gap: 1rem;
+                margin-bottom: 3.5rem
+            }
+
+            .job::before {
+                left: 6px
+            }
+
+            .job .yr {
+                font-size: 1.2rem;
+                color: var(--soft)
+            }
+
+            .card {
+                position: relative;
+                top: 0;
+                min-height: 0;
+                padding: 1.6rem
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
+            }
+
+            .js .reveal {
+                opacity: 1;
+                transform: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>document.documentElement.classList.add('js')</script>
+
+    <div id="loader"><b id="lpct">0%</b><span class="mono">Loading the lab</span><i id="lbar"></i></div>
+
+    <header class="nav">
+        <a class="logo" href="#top" aria-label="Back to top">SB.</a>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#career">Career</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <header class="hero" id="top">
+        <canvas id="lattice" aria-hidden="true"></canvas>
+        <label class="heat">Heat <input id="temp" type="range" min="0" max="100" value="12" aria-label="Temperature">
+            <output id="tout">120 K</output></label>
+        <div class="in">
+            <div>
+                <p class="mono" style="margin:0 0 .8rem">Hello! I’m</p>
+                <h1>SHIVRAJ<br>BAKARE</h1>
+                <p class="lede">Final-year materials engineer at IIT Kanpur. I build machine learning for crystals,
+                    images and speech, and I care that the models can explain themselves.</p>
+            </div>
+            <div class="r">
+                <div class="small">A final-year</div>
+                <div class="big grad"><span class="rot"><span>MATERIALS<br>VISION<br>SPEECH<br>MATERIALS</span></span>
+                </div>
+                <div class="big">ML ENGINEER</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="sec" id="about">
+            <div class="aboutbox reveal">
+                <div class="scenewrap">
+                    <div id="scene" aria-hidden="true"></div>
+                </div>
+                <div>
+                    <span class="mono">About me</span>
+                    <h2 style="margin-top:.6rem">Atoms by degree, <span class="grad">models by choice.</span></h2>
+                    <p>I’m studying Materials Science at IIT Kanpur. Somewhere between learning how atoms bond and
+                        running DFT, I got curious whether a neural network could learn those bonds straight from data,
+                        and I’ve been doing ML ever since.</p>
+                    <p>I’ve built graph networks for crystals, deepfake and AI-image detectors, and a Sanskrit speech
+                        recogniser. I like models that can show why they gave an answer.</p>
+                </div>
+                <div class="edu">
+                    <div><span><b>B.Tech, Materials Science</b><br><span class="mono">IIT Kanpur · 2023 to
+                                now</span></span><b>CPI 7.9</b></div>
+                    <div><span><b>Class XII</b><br><span class="mono">Maharashtra Board</span></span><b>84.17%</b></div>
+                    <div><span><b>Class X</b><br><span class="mono">Maharashtra Board</span></span><b>97.0%</b></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec" id="career">
+            <h2 class="sec-title reveal">My career <span class="grad">&amp; experience</span></h2>
+            <div class="career">
+                <div class="job reveal">
+                    <div class="when">
+                        <div>
+                            <h3>AI/ML Engineering Intern</h3>
+                            <div class="co">MyConsciOS</div>
+                        </div>
+                        <div class="yr">2026</div>
+                    </div>
+                    <ul>
+                        <li>Built LamarX, a decision engine mixing fixed rules with AI, on FastAPI and PostgreSQL (87
+                            Alembic migrations).</li>
+                        <li>Added an anti-abuse answer lock comparing OpenAI embeddings by cosine similarity at a 0.84
+                            threshold.</li>
+                        <li>Calibrated confidence with a Beta-Binomial model, checked with Brier scores and 10-bin
+                            calibration curves.</li>
+                        <li>Shipped the full-stack platform and designed ConsciOS: API gateway, Docker, Redis rate
+                            limiting.</li>
+                    </ul>
+                </div>
+                <div class="job reveal">
+                    <div class="when">
+                        <div>
+                            <h3>Research Intern</h3>
+                            <div class="co">University College London</div>
+                            <div class="mono" style="margin-top:.4rem">with Prof. Philip Treleaven</div>
+                        </div>
+                        <div class="yr">2026</div>
+                    </div>
+                    <ul>
+                        <li>Designed a privacy-preserving, sovereignty-aware way to fine-tune LLMs in regulated
+                            financial systems.</li>
+                        <li>Combined DP-SGD, federated learning and LoRA/QLoRA while keeping privacy overhead low enough
+                            for real-time use.</li>
+                        <li>Co-authored the resulting paper, published on SSRN.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec" id="work">
+            <h2 class="sec-title reveal">My <span class="grad">work</span></h2>
+            <div class="work reveal">
+                <ul class="plist" id="plist" role="tablist" aria-label="Projects"></ul>
+                <div class="card" id="card" role="tabpanel" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section class="sec tech" id="stack">
+            <h2 class="sec-title reveal">My techstack</h2>
+            <span class="mono reveal">Push the balls around</span>
+            <canvas id="tech"
+                aria-label="Bouncing balls labelled with the tools I use: Python, C++, C, SQL, PyTorch, scikit-learn, NumPy, Pandas, FastAPI, Next.js, React, Tailwind, PostgreSQL, Redis, Docker, Git and VASP."></canvas>
+        </section>
+
+        <section class="sec" id="more">
+            <h2 class="sec-title reveal">Along <span class="grad">the way</span></h2>
+            <div class="ach reveal">
+                <div><b>1441</b><span>Codeforces rating, Specialist</span><span class="mono">2026</span></div>
+                <div><b>99.72%ile</b><span>MHT-CET, out of 250k+ candidates</span><span class="mono">2023</span></div>
+                <div><b>2nd</b><span>AIRIDDLE flight challenge, Aeromodelling Club</span><span class="mono">IIT
+                        Kanpur</span></div>
+                <div><b>Gold</b><span>Group dance, Inter IIT 7.0</span><span class="mono">IIT Kanpur</span></div>
+                <div><b>Rank 41</b><span>State rank, Manthan Talent Search</span><span class="mono">2017</span></div>
+                <div><b>Grade A</b><span>NCC certificate, Ministry of Defence</span><span class="mono">School</span>
+                </div>
+            </div>
+            <div class="stackline reveal">
+                <div><span class="mono">Languages</span>
+                    <p>Python, C, C++, SQL, JavaScript</p>
+                </div>
+                <div><span class="mono">ML</span>
+                    <p>PyTorch, PyG, scikit-learn, NumPy, Pandas</p>
+                </div>
+                <div><span class="mono">Web</span>
+                    <p>FastAPI, Next.js, React, Tailwind</p>
+                </div>
+                <div><span class="mono">Coursework</span>
+                    <p>AI/ML/DL, Materials Informatics, Computational MSE, Linear Algebra, Quantum Physics</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec" id="contact">
+            <h2 class="sec-title reveal">Let’s <span class="grad">talk</span></h2>
+            <a class="bigmail reveal" href="mailto:shivrajb23@iitk.ac.in">shivrajb23@iitk.ac.in</a>
+            <div class="contact-grid reveal">
+                <div><span class="mono">Email</span><br><a href="mailto:shivrajb23@iitk.ac.in">shivrajb23@iitk.ac.in
+                        &#8599;</a></div>
+                <div><span class="mono">Code</span><br><a href="https://github.com/Shivrajbakare" target="_blank"
+                        rel="noopener">github.com/Shivrajbakare &#8599;</a></div>
+                <div><span class="mono">Based at</span><br>IIT Kanpur, India</div>
+            </div>
+        </section>
+    </main>
+    <footer class="mono"><span>&copy; 2026 Shivraj Bakare</span><a href="#top">Back to top &uarr;</a></footer>
+
+    <script>
+            /* loader */
+            (function () {
+                var p = 0, pct = document.getElementById('lpct'), bar = document.getElementById('lbar'), ld = document.getElementById('loader');
+                var t = setInterval(function () { p = Math.min(100, p + 4); pct.textContent = p + '%'; bar.style.width = p + '%'; if (p >= 100) { clearInterval(t); setTimeout(function () { ld.classList.add('done') }, 250); } }, 30);
+                setTimeout(function () { ld.classList.add('done') }, 3000);
+            })();
+
+        /* reveal */
+        (function () {
+            var els = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in') }); return; }
+            var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }) }, { threshold: .12 });
+            els.forEach(function (e) { io.observe(e) });
+        })();
+
+        /* crystal lattice hero */
+        (function () {
+            var hero = document.getElementById('top'), cv = document.getElementById('lattice'), ctx = cv.getContext('2d');
+            var temp = document.getElementById('temp'), tout = document.getElementById('tout');
+            var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var atoms = [], cols, rows, gap, W, H, mx = -999, my = -999, visible = true, started = 0;
+            function init() {
+                var dpr = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight;
+                cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                gap = W < 700 ? 46 : 64; cols = Math.ceil(W / gap) + 1; rows = Math.ceil(H / gap) + 1; atoms = [];
+                for (var j = 0; j < rows; j++)for (var i = 0; i < cols; i++) {
+                    var rx = i * gap, ry = j * gap;
+                    atoms.push({ rx: rx, ry: ry, x: reduce ? rx : Math.random() * W, y: reduce ? ry : Math.random() * H, vx: 0, vy: 0, a: (i + j) % 2 });
+                }
+                started = performance.now(); draw();
+            }
+            function step() {
+                var T = temp.value / 100, k = performance.now() - started < 350 ? 0.004 : 0.05;
+                for (var n = 0; n < atoms.length; n++) {
+                    var a = atoms[n];
+                    a.vx += (a.rx - a.x) * k + (Math.random() - .5) * T * 1.6;
+                    a.vy += (a.ry - a.y) * k + (Math.random() - .5) * T * 1.6;
+                    var dx = a.x - mx, dy = a.y - my, d = Math.hypot(dx, dy);
+                    if (d < 140 && d > 0.1) { var f = (1 - d / 140) * 3; a.vx += dx / d * f; a.vy += dy / d * f; }
+                    a.vx *= .86; a.vy *= .86; a.x += a.vx; a.y += a.vy;
+                }
+            }
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                ctx.lineWidth = 1; ctx.strokeStyle = '#2c2a38'; ctx.beginPath();
+                for (var j = 0; j < rows; j++)for (var i = 0; i < cols; i++) {
+                    var a = atoms[j * cols + i];
+                    if (i < cols - 1) { var b = atoms[j * cols + i + 1]; ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); }
+                    if (j < rows - 1) { var c = atoms[(j + 1) * cols + i]; ctx.moveTo(a.x, a.y); ctx.lineTo(c.x, c.y); }
+                }
+                ctx.stroke();
+                for (var n = 0; n < atoms.length; n++) {
+                    var p = atoms[n]; ctx.fillStyle = p.a ? '#B99BFF' : '#8E8A99';
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.a ? 6 : 3.5, 0, 6.283); ctx.fill();
+                }
+            }
+            function loop() { if (visible && !reduce) { step(); draw(); } requestAnimationFrame(loop); }
+            hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+            hero.addEventListener('pointerleave', function () { mx = my = -999; });
+            new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(hero);
+            temp.addEventListener('input', function () { tout.textContent = Math.round(temp.value * 10) + ' K'; });
+            tout.textContent = Math.round(temp.value * 10) + ' K';
+            var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(init, 150); });
+            init(); loop();
+        })();
+
+        /* projects */
+        (function () {
+            var P = [
+                { t: 'CATGNN', m: 'R² 0.978', y: '2025', w: 'Lattice thermal conductivity · Prof. Somnath Bhowmick, MSE', st: ['PyTorch', 'PyTorch Geometric', 'VASP', 'LOBSTER', 'OQMD'], b: ['Predicts lattice thermal conductivity from ICOHP/ICOBI bonding descriptors with graph neural networks.', 'Generated descriptors for 4,500+ crystals from OQMD using DFT (VASP) and LOBSTER.', 'GNN with spherical harmonics, trained with AdamW on a 75/15/10 split.', 'R² of 97.4% (ICOHP) and 97.8% (ICOBI); screened 200k+ materials.'] },
+                { t: 'Explainable AI-Image Detection', m: '70+ artifacts', y: '2026', w: 'Real vs. generated, with explanations · Prof. A. Behera', st: ['PyTorch', 'DINOv2', 'CLIP', 'ResNet50', 'DenseNet121', '4-bit VLM'], b: ['Labels images real or fake and localises artifacts across SD 3.5, PixArt-α and Adobe Firefly.', 'DINOv2 + RBF-SVM classifier, a 16-CNN ensemble and JINA-CLIP-V2.', 'A 5-tier priority fusion step merges outputs into one ranked list within VRAM limits.', 'A 4-bit Ovis1.6-Gemma2-9B explains each finding in plain language; 0.182 IoU on 2,750 hand-annotated images.'] },
+                { t: 'ISTVT DeepFake Detection', m: '97.24% AUC', y: '2025', w: 'Spatial-temporal transformer · EE656, Prof. N. K. Verma', st: ['PyTorch', 'Xception', 'MTCNN', 'Self-attention'], b: ['Catches per-frame artifacts and inconsistencies across frames at several compression levels.', 'MTCNN face crops turn each video into a normalised, fixed-length frame sequence.', 'Xception features feed a spatial-temporal self-attention tokenizer with feature subtraction.', '95.32% accuracy on FaceForensics++; attention lands on eyes, mouth and jawline.'] },
+                { t: 'Sanskrit Real-Time ASR', m: '90%+ accuracy', y: '2025', w: 'Speech recognition · Prof. Rajesh M. Hegde, EE', st: ['Wav2Vec2', 'PyTorch', 'FastAPI', 'Next.js', 'Tailwind', 'Tkinter'], b: ['Fine-tuned Wav2Vec2 with CTC on 16 kHz Sanskrit speech (soundfile, librosa).', 'FastAPI backend with Flan-T5-base and endpoints for transcription and human correction.', 'Two clients: a Next.js + Tailwind web app that streams audio, and a multithreaded Tkinter desktop app.'] },
+                { t: 'Sovereign LLM Fine-Tuning', m: 'SSRN paper', y: '2026', w: 'Privacy-preserving finance LLMs · UCL, Prof. Philip Treleaven', st: ['DP-SGD', 'Federated learning', 'LoRA / QLoRA'], b: ['Keeps governance and privacy as separate planes when fine-tuning LLMs on financial data.', 'Brings together DP-SGD, federated computing as code, the Value-Identity Model and LoRA/QLoRA.', 'Compared privacy frameworks for high-frequency trading and retail banking.', 'A Governance-as-Code layer automates compliance audits and resists poisoning attacks.'] },
+                { t: 'LamarX & ConsciOS', m: '87 migrations', y: '2026', w: 'Decision engine + microservices · MyConsciOS', st: ['FastAPI', 'PostgreSQL', 'Alembic', 'Docker', 'Redis', 'OpenAI'], b: ['LamarX: a 16-state symbolic mapper with Witness/Judge synthesis and 6-factor confidence scoring.', 'Two-tier text humaniser: OpenAI first, rule-based fallback.', 'ConsciOS: a microservices decision OS with an API gateway, Redis rate limiting and JSON outputs.'] }
+            ];
+            var list = document.getElementById('plist'), card = document.getElementById('card'), cur = -1;
+            P.forEach(function (p, i) {
+                var li = document.createElement('li'), b = document.createElement('button');
+                b.setAttribute('role', 'tab');
+                b.innerHTML = '<span class="n">' + ('0' + (i + 1)).slice(-2) + '</span><span class="t">' + p.t + '</span><span class="ar" aria-hidden="true">&rarr;</span>';
+                b.addEventListener('click', function () { pick(i) });
+                b.addEventListener('mouseenter', function () { if (matchMedia('(pointer:fine)').matches) pick(i) });
+                b.addEventListener('keydown', function (e) { var d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0; if (d) { e.preventDefault(); var n = (i + d + P.length) % P.length; pick(n); list.children[n].firstChild.focus(); } });
+                li.appendChild(b); list.appendChild(li);
+            });
+            function pick(i) {
+                if (i === cur) return; cur = i; var p = P[i];
+                Array.prototype.forEach.call(list.children, function (li, k) { var b = li.firstChild; b.setAttribute('aria-selected', k === i); b.tabIndex = k === i ? 0 : -1; });
+                card.innerHTML = '<div class="inner"><span class="mono">' + p.y + ' &middot; Project ' + ('0' + (i + 1)).slice(-2) + '</span><div class="metric grad">' + p.m + '</div><h3>' + p.t + '</h3><p class="w">' + p.w + '</p><ul>' + p.b.map(function (x) { return '<li>' + x + '</li>' }).join('') + '</ul><div class="tags">' + p.st.map(function (x) { return '<span>' + x + '</span>' }).join('') + '</div></div>';
+            }
+            pick(0);
+        })();
+
+        /* tech balls */
+        (function () {
+            var cv = document.getElementById('tech'), ctx = cv.getContext('2d');
+            var NAMES = ['Python', 'C++', 'C', 'SQL', 'PyTorch', 'PyG', 'scikit-learn', 'NumPy', 'Pandas', 'FastAPI', 'Next.js', 'React', 'Tailwind', 'Postgres', 'Redis', 'Docker', 'Git', 'VASP'];
+            var balls = [], W, H, running = false, visible = false, m = { x: -1e4, y: -1e4, vx: 0, vy: 0 };
+            var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            function init() {
+                var dpr = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight;
+                cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                var base = Math.max(30, Math.min(72, Math.sqrt(W * H / NAMES.length) / 2.9));
+                balls = NAMES.map(function (n, i) {
+                    var r = base * (.82 + ((i * 37) % 10) / 22);
+                    return { n: n, r: r, x: r + Math.random() * (W - 2 * r), y: reduce ? H - r - Math.random() * H * .5 : -Math.random() * H * 1.2 - r, vx: (Math.random() - .5) * 2, vy: 0, v: i % 4 === 0 };
+                });
+            }
+            function step() {
+                var i, j, a, b, dx, dy, d;
+                for (i = 0; i < balls.length; i++) {
+                    b = balls[i];
+                    b.vy += .32; b.vx *= .995; b.vy *= .995;
+                    dx = b.x - m.x; dy = b.y - m.y; d = Math.hypot(dx, dy); var R = b.r + 60;
+                    if (d < R && d > .1) { var f = (1 - d / R) * 2.2; b.vx += dx / d * f + m.vx * .04; b.vy += dy / d * f + m.vy * .04; }
+                    b.x += b.vx; b.y += b.vy;
+                    if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -.42; b.vx *= .96; }
+                    if (b.x - b.r < 0) { b.x = b.r; b.vx *= -.6; }
+                    if (b.x + b.r > W) { b.x = W - b.r; b.vx *= -.6; }
+                }
+                for (var it = 0; it < 3; it++)for (i = 0; i < balls.length; i++)for (j = i + 1; j < balls.length; j++) {
+                    a = balls[i]; b = balls[j]; dx = b.x - a.x; dy = b.y - a.y; d = Math.hypot(dx, dy); var min = a.r + b.r;
+                    if (d < min && d > .01) {
+                        var nx = dx / d, ny = dy / d, o = (min - d) / 2; a.x -= nx * o; a.y -= ny * o; b.x += nx * o; b.y += ny * o;
+                        var rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny; if (rv < 0) { var imp = -rv * .75; a.vx -= nx * imp; a.vy -= ny * imp; b.vx += nx * imp; b.vy += ny * imp; }
+                    }
+                }
+                m.vx *= .8; m.vy *= .8;
+            }
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                for (var i = 0; i < balls.length; i++) {
+                    var b = balls[i];
+                    var g = ctx.createRadialGradient(b.x - b.r * .35, b.y - b.r * .4, b.r * .08, b.x, b.y, b.r);
+                    if (b.v) { g.addColorStop(0, '#EADFFF'); g.addColorStop(.45, '#9A72FF'); g.addColorStop(1, '#3A2185'); }
+                    else { g.addColorStop(0, '#FFFFFF'); g.addColorStop(.5, '#D6D4DE'); g.addColorStop(1, '#6E6B7A'); }
+                    ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 6.2832); ctx.fillStyle = g; ctx.fill();
+                    var fs = b.r * .34; ctx.font = '600 ' + fs + 'px Geist, system-ui, sans-serif';
+                    var w = ctx.measureText(b.n).width; if (w > b.r * 1.55) { fs *= b.r * 1.55 / w; ctx.font = '600 ' + fs + 'px Geist, system-ui, sans-serif'; }
+                    ctx.fillStyle = b.v ? '#fff' : '#1A1822'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(b.n, b.x, b.y + 1);
+                }
+            }
+            function loop() { if (visible && !reduce) { step(); draw(); } requestAnimationFrame(loop); }
+            cv.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; if (m.x > -1e3) { m.vx = x - m.x; m.vy = y - m.y; } m.x = x; m.y = y; });
+            cv.addEventListener('pointerdown', function (e) { var r = cv.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; });
+            cv.addEventListener('pointerleave', function () { m.x = m.y = -1e4; });
+            cv.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') m.x = m.y = -1e4; });
+            new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible && !running) { running = true; init(); if (reduce) draw(); loop(); } }, { threshold: .2 }).observe(cv);
+            var rt; addEventListener('resize', function () { if (!running) return; clearTimeout(rt); rt = setTimeout(init, 200); });
+        })();
+    </script>
+    <script type="module">
+        /* 3D avatar + laptop */
+        const wrap = document.getElementById('scene');
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let THREE;
+        try { THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'); } catch (e) { }
+        if (THREE) {
+            try {
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+                renderer.outputColorSpace = THREE.SRGBColorSpace;
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                wrap.appendChild(renderer.domElement);
+                const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+                scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1230, .7));
+                const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(2.5, 3, 5); scene.add(key);
+                const rl = new THREE.DirectionalLight(0x8c5cff, 4); rl.position.set(-4, 2, -3); scene.add(rl);
+                const rr = new THREE.DirectionalLight(0xb48cff, 3); rr.position.set(4, 1.5, -3); scene.add(rr);
+                const sl = new THREE.PointLight(0xff8fc0, 0, 6, 2); scene.add(sl);
+
+                const gc = document.createElement('canvas'); gc.width = gc.height = 256; const g = gc.getContext('2d');
+                const rg = g.createRadialGradient(128, 128, 0, 128, 128, 128); rg.addColorStop(0, 'rgba(140,92,255,.85)'); rg.addColorStop(.4, 'rgba(110,60,230,.35)'); rg.addColorStop(1, 'rgba(80,40,200,0)');
+                g.fillStyle = rg; g.fillRect(0, 0, 256, 256);
+                const glow = new THREE.Mesh(new THREE.PlaneGeometry(6.5, 6.5), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(gc), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+                glow.position.set(0, -.3, -1.6); scene.add(glow);
+
+                const M = (c, r = .6, o = {}) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: r }, o));
+                const skin = M(0xC5875F, .55), skin2 = M(0xB57552, .6), hood = M(0x26252D, .85), cap = M(0xEDEDF0, .45), dark = M(0x1B1416, .5), white = M(0xffffff, .2), pupilM = M(0x120E10, .15);
+                const mesh = (geo, mat, x = 0, y = 0, z = 0, s) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); if (s) m.scale.set(...s); return m; };
+
+                const root = new THREE.Group(); scene.add(root);
+                const body = new THREE.Group(); root.add(body);
+                body.add(mesh(new THREE.SphereGeometry(1, 48, 32), hood, 0, -.6, 0, [1.4, 1.05, .85]));
+                const collar = mesh(new THREE.TorusGeometry(.42, .13, 16, 40), hood, 0, .33, 0); collar.rotation.x = Math.PI / 2; body.add(collar);
+                body.add(mesh(new THREE.CylinderGeometry(.27, .31, .55, 24), skin, 0, .48, 0));
+                [-.16, .16].forEach(x => { const s = mesh(new THREE.CylinderGeometry(.018, .018, .45, 8), cap, x, .05, .72); s.rotation.x = -.25; body.add(s); });
+
+                const head = new THREE.Group(); head.position.y = .75; root.add(head);
+                head.add(mesh(new THREE.SphereGeometry(.78, 48, 32), skin, 0, .55, 0, [1, 1.05, .95]));
+                [-1, 1].forEach(s => head.add(mesh(new THREE.SphereGeometry(.17, 24, 16), skin, s * .77, .5, 0, [.55, 1, .8])));
+                const capTop = mesh(new THREE.SphereGeometry(.82, 48, 24, 0, Math.PI * 2, 0, Math.PI * .5), cap, 0, .66, -.02); capTop.rotation.x = -.12; head.add(capTop);
+                const band = mesh(new THREE.TorusGeometry(.8, .05, 12, 48), cap, 0, .67, -.02, [1, 1, .97]); band.rotation.x = Math.PI / 2 - .12; head.add(band);
+                const brim = mesh(new THREE.CylinderGeometry(.5, .5, .045, 40), cap, 0, .74, .62, [1, 1, .75]); brim.rotation.x = .18; head.add(brim);
+                head.add(mesh(new THREE.SphereGeometry(.07, 16, 12), M(0x9A72FF, .4), 0, 1.47, -.2));
+                const eyes = [], pupils = [];
+                [-1, 1].forEach(s => {
+                    const e = new THREE.Group(); e.position.set(s * .27, .58, .68); head.add(e);
+                    e.add(mesh(new THREE.SphereGeometry(.15, 24, 16), white, 0, 0, 0, [1, 1, .6]));
+                    const p = mesh(new THREE.SphereGeometry(.07, 16, 12), pupilM, 0, 0, .075, [1, 1, .5]); e.add(p);
+                    const lidE = mesh(new THREE.SphereGeometry(.158, 24, 12, 0, Math.PI * 2, 0, Math.PI * .42), skin, 0, 0, .005, [1, 1, .65]); lidE.rotation.x = -.25; e.add(lidE);
+                    eyes.push(e); pupils.push(p);
+                    const brow = mesh(new THREE.BoxGeometry(.27, .055, .06), dark, s * .28, .83, .66); brow.rotation.z = s * -.12; head.add(brow);
+                });
+                head.add(mesh(new THREE.SphereGeometry(.11, 20, 16), skin2, 0, .4, .77, [1, .85, 1]));
+                const mouth = mesh(new THREE.TorusGeometry(.16, .028, 8, 24, Math.PI), dark, 0, .22, .68); mouth.rotation.z = Math.PI; head.add(mouth);
+
+                const laptop = new THREE.Group(); scene.add(laptop);
+                laptop.add(mesh(new THREE.BoxGeometry(1.5, .06, 1), M(0x3a3842, .35, { metalness: .6 })));
+                const lid = new THREE.Group(); lid.position.set(0, .03, -.5); laptop.add(lid);
+                const lidMesh = mesh(new THREE.BoxGeometry(1.5, 1, .05), M(0xD9799F, .35, { emissive: 0xC2557F, emissiveIntensity: .55 }), 0, .5, 0); lid.add(lidMesh);
+                laptop.visible = false;
+
+                let W = 1, H = 1;
+                function resize() {
+                    W = wrap.clientWidth; H = wrap.clientHeight; renderer.setSize(W, H, false); camera.aspect = W / H;
+                    camera.position.set(0, .2, Math.min(15, Math.max(8, 9.7 / camera.aspect))); camera.updateProjectionMatrix();
+                }
+                resize(); new ResizeObserver(resize).observe(wrap);
+
+                let nx = 0, ny = 0; addEventListener('pointermove', e => { nx = e.clientX / innerWidth * 2 - 1; ny = -(e.clientY / innerHeight * 2 - 1); });
+                let visible = false; new IntersectionObserver(es => visible = es[0].isIntersecting).observe(wrap);
+                const lerp = (a, b, t) => a + (b - a) * t, ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+                function prog() { const r = wrap.getBoundingClientRect(); return Math.min(1, Math.max(0, (innerHeight * .9 - r.top) / (innerHeight * .55))); }
+                let blinkAt = 1.5, cp = 0, t0 = performance.now(), frames = 0;
+                function tick(now) {
+                    requestAnimationFrame(tick);
+                    if (!visible && frames > 1) return;
+                    frames++;
+                    const t = (now - t0) / 1000; cp = lerp(cp, prog(), .1); const p = ease(cp);
+                    root.position.set(-.5, -1.2, 0);
+                    root.rotation.y = lerp(0, .6, p) + (reduce ? 0 : Math.sin(t * .6) * .03);
+                    body.scale.y = 1 + (reduce ? 0 : Math.sin(t * 1.8) * .012);
+                    glow.position.set(root.position.x, root.position.y + .9, -1.6);
+                    head.rotation.y = lerp(head.rotation.y, lerp(nx * .5, .25, p), .08);
+                    head.rotation.x = lerp(head.rotation.x, lerp(-ny * .25, .28, p), .08);
+                    pupils.forEach(pp => { pp.position.x = lerp(pp.position.x, (1 - p) * nx * .035, .1); pp.position.y = lerp(pp.position.y, (1 - p) * ny * .03 - p * .03, .1); });
+                    if (!reduce && t > blinkAt) { const k = t - blinkAt; const s = k < .07 ? 1 - k / .07 * .9 : k < .14 ? .1 + (k - .07) / .07 * .9 : 1; eyes.forEach(e => e.scale.y = s); if (k > .14) blinkAt = t + 2.5 + Math.random() * 3; }
+                    laptop.visible = p > .02;
+                    const lx = root.position.x + 1.4, ly = root.position.y + lerp(-2.2, .55, p), lz = 1.1;
+                    laptop.position.set(lx, ly, lz); laptop.rotation.set(0, -.95, 0); laptop.scale.setScalar(.95);
+                    lid.rotation.x = lerp(-1.5, -.28, Math.min(1, p * 1.3));
+                    lidMesh.material.emissiveIntensity = .2 + p * .5;
+                    sl.position.set(lx - .3, ly + .6, lz); sl.intensity = p * 6;
+                    renderer.render(scene, camera);
+                }
+                requestAnimationFrame(tick);
+            } catch (e) { wrap.classList.add('no3d'); }
+        }
+    </script>
+</body>
+
+</html>
